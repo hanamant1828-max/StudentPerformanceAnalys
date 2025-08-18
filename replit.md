@@ -1,6 +1,6 @@
 # Overview
 
-This is a Student Performance Prediction System that uses machine learning to predict academic performance based on various student factors. The application provides both single student prediction and batch processing capabilities through Excel file uploads. It classifies students into performance categories (Poor, Average, Good, Excellent) and provides personalized improvement suggestions with interactive data visualizations.
+This is a Student Performance Prediction System with user authentication that uses machine learning to predict academic performance based on various student factors. The application provides user registration/login, single student prediction and batch processing capabilities through Excel file uploads. It classifies students into performance categories (Poor, Average, Good, Excellent) and provides personalized improvement suggestions with interactive data visualizations. All predictions are saved to user history with SQLite database.
 
 # User Preferences
 
@@ -18,8 +18,10 @@ Preferred communication style: Simple, everyday language.
 
 ## Backend Architecture
 - **Framework**: Flask (Python) with CORS enabled for cross-origin requests
-- **Application Structure**: Single-file Flask application with modular ML component
-- **Request Handling**: RESTful API endpoints for single and batch predictions
+- **Authentication**: Flask-Login with user registration and login system
+- **Database**: SQLite with SQLAlchemy ORM for user management and prediction history
+- **Application Structure**: Modular Flask application with separate models and ML component
+- **Request Handling**: Protected RESTful API endpoints for single and batch predictions
 - **Error Handling**: Comprehensive try-catch blocks with proper HTTP status codes
 - **Deployment**: ProxyFix middleware for reverse proxy compatibility
 
@@ -32,11 +34,14 @@ Preferred communication style: Simple, everyday language.
 - **Model Persistence**: Pickle serialization capability for model saving/loading
 
 ## Data Architecture
+- **Database**: SQLite with user management and prediction history tables
+- **User Management**: User authentication with roles (student, teacher, admin)
 - **Input Features**: 10 student attributes including grades, attendance, study habits, and skills
 - **Feature Types**: Mix of numerical (grades, hours) and categorical (skills, activities) data
 - **Performance Categories**: 4-level classification system (Poor/Average/Good/Excellent)
 - **Data Validation**: Required field validation and type checking
 - **Batch Processing**: Excel file upload support with structured column mapping
+- **Prediction History**: All predictions saved with user association and timestamps
 
 ## Frontend-Backend Integration
 - **API Endpoints**: RESTful design with `/api/predict_single` and batch prediction routes
@@ -48,11 +53,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Python Libraries
 - **Flask**: Web framework for backend API development
+- **Flask-Login**: User session management and authentication
+- **Flask-SQLAlchemy**: Database ORM for SQLite
 - **Flask-CORS**: Cross-origin resource sharing support
 - **Pandas**: Data manipulation and analysis
 - **NumPy**: Numerical computing support
 - **Scikit-learn**: Machine learning algorithms and utilities
 - **Werkzeug**: WSGI utilities and proxy fix middleware
+- **Email-Validator**: Email validation for registration
 
 ## Frontend Libraries
 - **Bootstrap 5**: CSS framework for responsive design

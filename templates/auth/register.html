@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Student Performance Prediction System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+        .register-card {
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+        }
+        .brand-logo {
+            font-size: 2rem;
+            color: var(--bs-primary);
+            margin-bottom: 1rem;
+        }
+        .form-floating input:focus,
+        .form-floating select:focus {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="card">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-graduation-cap brand-logo"></i>
+                        <h4 class="card-title">Student Performance Predictor</h4>
+                        <p class="text-muted">Create your account</p>
+                    </div>
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="first_name" name="first_name" 
+                                           placeholder="First Name" required>
+                                    <label for="first_name">
+                                        <i class="fas fa-user me-2"></i>First Name
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="last_name" name="last_name" 
+                                           placeholder="Last Name" required>
+                                    <label for="last_name">
+                                        <i class="fas fa-user me-2"></i>Last Name
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" name="username" 
+                                   placeholder="Username" required>
+                            <label for="username">
+                                <i class="fas fa-at me-2"></i>Username
+                            </label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="Email Address" required>
+                            <label for="email">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="role" name="role">
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                            <label for="role">
+                                <i class="fas fa-user-tag me-2"></i>Role
+                            </label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="password" name="password" 
+                                           placeholder="Password" required minlength="6">
+                                    <label for="password">
+                                        <i class="fas fa-lock me-2"></i>Password
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" 
+                                           placeholder="Confirm Password" required minlength="6">
+                                    <label for="confirm_password">
+                                        <i class="fas fa-lock me-2"></i>Confirm Password
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Already have an account? 
+                                <a href="{{ url_for('login') }}" class="text-decoration-none">
+                                    Sign in here
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Password confirmation validation
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

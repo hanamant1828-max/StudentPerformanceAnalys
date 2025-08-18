@@ -20,13 +20,8 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "default_secret_key_for_development")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# Database configuration
-database_url = os.environ.get("DATABASE_URL")
-if not database_url:
-    # Fallback for development
-    database_url = "sqlite:///app.db"
-
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+# Database configuration - using SQLite strictly
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///student_performance.db"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
@@ -352,13 +347,36 @@ def predict_batch():
                 }
                 
                 prediction, suggestions = ml_model.predict_single(student_data)
+                confidence = ml_model.get_prediction_confidence(student_data)
                 performance_stats[prediction] += 1
+                
+                # Save to prediction history
+                try:
+                    prediction_record = PredictionHistory(
+                        user_id=current_user.id,
+                        student_name=str(row['Student_Name']),
+                        predicted_performance=prediction,
+                        confidence=confidence,
+                        previous_grades=student_data['Previous_Grades'],
+                        attendance_percentage=student_data['Attendance_Percentage'],
+                        study_hours_per_day=student_data['Study_Hours_Per_Day'],
+                        extracurricular_activities=student_data['Extracurricular_Activities'],
+                        interactiveness=bool(student_data['Interactiveness']),
+                        practical_knowledge=student_data['Practical_Knowledge'],
+                        communication_skill=student_data['Communication_Skill'],
+                        projects_handled=student_data['Projects_Handled'],
+                        assignments_completed=student_data['Assignments_Completed'],
+                        prediction_type='batch'
+                    )
+                    db.session.add(prediction_record)
+                except Exception as e:
+                    logging.error(f"Error saving batch prediction history for row {index}: {str(e)}")
                 
                 results.append({
                     'student_name': str(row['Student_Name']),
                     'predicted_performance': prediction,
                     'suggestions': suggestions,
-                    'confidence': ml_model.get_prediction_confidence(student_data)
+                    'confidence': confidence
                 })
                 
             except Exception as e:
@@ -369,6 +387,13 @@ def predict_batch():
                     'suggestions': [f'Error processing data: {str(e)}'],
                     'confidence': 0
                 })
+        
+        # Commit all prediction records
+        try:
+            db.session.commit()
+        except Exception as e:
+            logging.error(f"Error committing batch predictions: {str(e)}")
+            db.session.rollback()
         
         return jsonify({
             'results': results,
