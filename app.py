@@ -35,7 +35,7 @@ CORS(app)
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'login'  # type: ignore
 login_manager.login_message = 'Please log in to access this page.'
 login_manager.login_message_category = 'info'
 
@@ -69,7 +69,7 @@ def login():
         data = request.get_json() if request.is_json else request.form
         username = data.get('username', '').strip()
         password = data.get('password', '')
-        remember = data.get('remember', False)
+        remember = bool(data.get('remember', False))
         
         if not username or not password:
             error = 'Please provide both username and password'
