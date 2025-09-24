@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(20), default='student')  # student, teacher, admin
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login = db.Column(db.DateTime)
-    is_active = db.Column(db.Boolean, default=True)
+    active = db.Column(db.Boolean, default=True)  # renamed to avoid UserMixin conflict
     
     # Relationships
     predictions = db.relationship('PredictionHistory', backref='user', lazy=True, cascade='all, delete-orphan')

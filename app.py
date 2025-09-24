@@ -84,7 +84,7 @@ def login():
         ).first()
         
         if user and user.check_password(password):
-            if not user.is_active:
+            if not user.active:
                 error = 'Your account has been deactivated. Please contact an administrator.'
                 if request.is_json:
                     return jsonify({'error': error}), 400
