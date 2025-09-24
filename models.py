@@ -9,7 +9,7 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 
-class User(UserMixin, db.Model):
+class User(UserMixin, db.Model):  # type: ignore
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(20), default='student')  # student, teacher, admin
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login = db.Column(db.DateTime)
-    active = db.Column(db.Boolean, default=True)  # renamed to avoid UserMixin conflict
+    active_status = db.Column(db.Boolean, default=True)  # renamed to avoid UserMixin conflict
     
     # Relationships
     predictions = db.relationship('PredictionHistory', backref='user', lazy=True, cascade='all, delete-orphan')
@@ -41,7 +41,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
-class PredictionHistory(db.Model):
+class PredictionHistory(db.Model):  # type: ignore
     __tablename__ = 'prediction_history'
     
     id = db.Column(db.Integer, primary_key=True)
