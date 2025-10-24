@@ -46,10 +46,25 @@ def load_user(user_id):
 # Initialize ML model
 ml_model = StudentPerformanceModel()
 
-# Create database tables
+# Create database tables and default user
 with app.app_context():
     db.create_all()
     logging.info("Database tables created successfully")
+    
+    # Create default demo user if it doesn't exist
+    demo_user = User.query.filter_by(username='demo').first()
+    if not demo_user:
+        demo_user = User(
+            username='demo',
+            email='demo@example.com',
+            first_name='Demo',
+            last_name='User',
+            role='student'
+        )
+        demo_user.set_password('demo123')
+        db.session.add(demo_user)
+        db.session.commit()
+        logging.info("Default demo user created: username='demo', password='demo123'")
 
 # Authentication routes
 @app.route('/')
