@@ -230,13 +230,38 @@ def dashboard():
     recent_predictions = PredictionHistory.query.filter_by(user_id=current_user.id)\
         .order_by(PredictionHistory.created_at.desc()).limit(10).all()
     
-    # Get statistics
-    total_predictions = PredictionHistory.query.filter_by(user_id=current_user.id).count()
+    # Get all predictions for statistics
+    all_predictions = PredictionHistory.query.filter_by(user_id=current_user.id).all()
+    total_predictions = len(all_predictions)
+    
+    # Calculate performance distribution
+    performance_stats = {
+        'Excellent': 0,
+        'Good': 0,
+        'Average': 0,
+        'Poor': 0
+    }
+    
+    total_confidence = 0
+    for pred in all_predictions:
+        if pred.predicted_performance in performance_stats:
+            performance_stats[pred.predicted_performance] += 1
+        total_confidence += pred.confidence
+    
+    avg_confidence = (total_confidence / total_predictions * 100) if total_predictions > 0 else 0
+    
+    # Get batch vs single statistics
+    batch_count = PredictionHistory.query.filter_by(user_id=current_user.id, prediction_type='batch').count()
+    single_count = PredictionHistory.query.filter_by(user_id=current_user.id, prediction_type='single').count()
     
     return render_template('dashboard.html', 
                          user=current_user, 
                          recent_predictions=recent_predictions,
-                         total_predictions=total_predictions)
+                         total_predictions=total_predictions,
+                         performance_stats=performance_stats,
+                         avg_confidence=avg_confidence,
+                         batch_count=batch_count,
+                         single_count=single_count)
 
 @app.route('/api/predict_single', methods=['POST'])
 @login_required
