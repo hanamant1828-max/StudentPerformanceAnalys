@@ -45,10 +45,6 @@ args = "uv add pandas scikit-learn numpy flask-cors openpyxl"
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 44073
-externalPort = 3000
-
 [agent]
 integrations = ["python_log_in_with_replit==1.0.0", "python_database==1.0.0", "styling_replit==1.0.0"]
 expertMode = true
