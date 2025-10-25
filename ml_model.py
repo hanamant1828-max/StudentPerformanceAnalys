@@ -141,24 +141,24 @@ class StudentPerformanceModel:
             comm_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[communication_skill]
             
             performance_score = (
-                previous_grades * 0.30 +
-                attendance * 0.18 +
-                min(study_hours * 6.5, 50) * 0.12 +
-                min(extracurricular * 4, 20) * 0.08 +
-                interactiveness * 18 * 0.08 +
-                practical_encoded_val * 8 * 0.12 +
-                comm_encoded_val * 8 * 0.12
+                previous_grades * 0.35 +
+                attendance * 0.20 +
+                min(study_hours * 7.5, 60) * 0.15 +
+                min(extracurricular * 3.5, 18) * 0.08 +
+                interactiveness * 15 * 0.07 +
+                practical_encoded_val * 7 * 0.08 +
+                comm_encoded_val * 7 * 0.07
             )
             
             # Add random noise to make classification more realistic
-            performance_score += np.random.normal(0, 3)
+            performance_score += np.random.normal(0, 2.5)
             
             # Determine performance category with realistic boundaries
             if performance_score < 45:
                 performance = 'Poor'
             elif performance_score < 65:
                 performance = 'Average'
-            elif performance_score < 82:
+            elif performance_score < 80:
                 performance = 'Good'
             else:
                 performance = 'Excellent'

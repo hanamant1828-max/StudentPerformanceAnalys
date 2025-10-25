@@ -89,8 +89,17 @@ Students are classified into four categories based on weighted performance score
 
 - **Poor**: Score < 45
 - **Average**: Score 45-65
-- **Good**: Score 65-82
-- **Excellent**: Score > 82
+- **Good**: Score 65-80
+- **Excellent**: Score > 80
+
+### Weighted Score Calculation
+- Previous Grades: 35%
+- Attendance: 20%
+- Study Hours: 15% (max 60 points at 8+ hours)
+- Extracurricular: 8% (max 18 points)
+- Interactiveness: 7% (max 15 points)
+- Practical Knowledge: 8%
+- Communication Skills: 7%
 
 ### Feature Weights
 - Previous Grades: 30%
