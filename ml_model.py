@@ -39,93 +39,148 @@ class StudentPerformanceModel:
             logging.error(f"Error initializing model: {str(e)}")
             raise
     
-    def _generate_training_data(self, n_samples=1000):
-        """Generate synthetic training data for the model"""
+    def _generate_training_data(self, n_samples=5000):
+        """Generate comprehensive synthetic training data for the model with realistic patterns"""
         np.random.seed(42)
         
         data = []
         
-        for _ in range(n_samples):
-            # Generate correlated features that make sense for student performance
+        for i in range(n_samples):
+            # Create diverse student profiles with realistic patterns
             
-            # Base performance level (hidden variable that influences all features)
-            base_performance = np.random.uniform(0, 1)
+            # Define different student archetypes for more realistic data
+            archetype = np.random.choice(['struggling', 'average', 'good', 'excellent', 'inconsistent'], 
+                                        p=[0.15, 0.35, 0.30, 0.15, 0.05])
             
-            # Previous grades (strongly correlated with performance)
+            if archetype == 'struggling':
+                base_performance = np.random.uniform(0, 0.35)
+                variance = 0.15
+            elif archetype == 'average':
+                base_performance = np.random.uniform(0.30, 0.65)
+                variance = 0.12
+            elif archetype == 'good':
+                base_performance = np.random.uniform(0.60, 0.85)
+                variance = 0.10
+            elif archetype == 'excellent':
+                base_performance = np.random.uniform(0.80, 1.0)
+                variance = 0.08
+            else:  # inconsistent
+                base_performance = np.random.uniform(0.25, 0.75)
+                variance = 0.25
+            
+            # Previous grades with realistic distribution
             previous_grades = np.clip(
-                np.random.normal(base_performance * 90 + 10, 15), 0, 100
+                np.random.normal(base_performance * 85 + 15, variance * 100), 0, 100
             )
             
-            # Attendance (correlated with performance)
+            # Attendance - strong correlation but with some outliers
+            attendance_correlation = 0.85 if np.random.random() > 0.1 else 0.5
             attendance = np.clip(
-                np.random.normal(base_performance * 85 + 15, 10), 0, 100
+                np.random.normal(base_performance * 80 + 20, variance * 80) * attendance_correlation, 
+                0, 100
             )
             
-            # Study hours (somewhat correlated)
+            # Study hours - diminishing returns after certain hours
+            base_study = base_performance * 7 + 1
             study_hours = np.clip(
-                np.random.normal(base_performance * 6 + 2, 2), 0, 12
+                np.random.gamma(base_study * 0.5, 2) if base_study > 3 else np.random.exponential(base_study),
+                0, 15
             )
             
-            # Extracurricular activities
-            extracurricular = np.random.poisson(base_performance * 3 + 1)
+            # Extracurricular activities - balanced distribution
+            if base_performance > 0.7:
+                extracurricular = np.random.choice([2, 3, 4, 5, 6], p=[0.1, 0.25, 0.35, 0.2, 0.1])
+            elif base_performance > 0.4:
+                extracurricular = np.random.choice([1, 2, 3, 4], p=[0.2, 0.4, 0.3, 0.1])
+            else:
+                extracurricular = np.random.choice([0, 1, 2, 3], p=[0.3, 0.4, 0.2, 0.1])
             
-            # Interactiveness (binary)
-            interactiveness = 1 if np.random.random() < (base_performance * 0.6 + 0.2) else 0
+            # Interactiveness with realistic probability
+            interactiveness_prob = base_performance * 0.7 + 0.15 + (np.random.random() * 0.1 - 0.05)
+            interactiveness = 1 if np.random.random() < interactiveness_prob else 0
             
-            # Practical knowledge (categorical)
-            practical_prob = base_performance * 0.7 + 0.1
-            if practical_prob < 0.25:
+            # Practical knowledge with independent variation
+            practical_score = base_performance + np.random.normal(0, 0.15)
+            if practical_score < 0.20:
                 practical_knowledge = 'Poor'
-            elif practical_prob < 0.5:
+            elif practical_score < 0.45:
                 practical_knowledge = 'Moderate'
-            elif practical_prob < 0.75:
+            elif practical_score < 0.75:
                 practical_knowledge = 'Good'
             else:
                 practical_knowledge = 'Very Good'
             
-            # Communication skill (categorical)
-            comm_prob = base_performance * 0.7 + 0.1
-            if comm_prob < 0.25:
+            # Communication skill with independent variation
+            comm_score = base_performance + np.random.normal(0, 0.18)
+            if comm_score < 0.25:
                 communication_skill = 'Poor'
-            elif comm_prob < 0.5:
+            elif comm_score < 0.50:
                 communication_skill = 'Moderate'
-            elif comm_prob < 0.75:
+            elif comm_score < 0.75:
                 communication_skill = 'Good'
             else:
                 communication_skill = 'Very Good'
             
-            # Projects handled
-            projects = np.random.poisson(base_performance * 4 + 1)
+            # Projects handled - correlated with skills and time
+            project_base = base_performance * 5 + 1
+            projects = int(np.clip(
+                np.random.poisson(project_base) + np.random.choice([-1, 0, 1], p=[0.1, 0.7, 0.2]),
+                0, 15
+            ))
             
-            # Assignments completed
-            assignments = np.clip(
-                np.random.normal(base_performance * 18 + 2, 3), 0, 20
-            )
+            # Assignments completed - high correlation with discipline
+            assignment_rate = base_performance * 0.85 + 0.10
+            assignments = int(np.clip(
+                np.random.binomial(20, assignment_rate),
+                0, 20
+            ))
             
-            # Determine performance category based on weighted combination
+            # Calculate performance with weighted combination and realistic thresholds
+            # Encode categorical for calculation
+            practical_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[practical_knowledge]
+            comm_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[communication_skill]
+            
             performance_score = (
-                previous_grades * 0.3 +
-                attendance * 0.2 +
-                study_hours * 5 * 0.15 +
-                extracurricular * 5 * 0.1 +
-                interactiveness * 20 * 0.1 +
-                (practical_prob * 100) * 0.075 +
-                (comm_prob * 100) * 0.075
+                previous_grades * 0.30 +
+                attendance * 0.18 +
+                min(study_hours * 6.5, 50) * 0.12 +
+                min(extracurricular * 4, 20) * 0.08 +
+                interactiveness * 18 * 0.08 +
+                practical_encoded_val * 8 * 0.12 +
+                comm_encoded_val * 8 * 0.12
             )
             
-            if performance_score < 40:
+            # Add random noise to make classification more realistic
+            performance_score += np.random.normal(0, 3)
+            
+            # Determine performance category with realistic boundaries
+            if performance_score < 45:
                 performance = 'Poor'
-            elif performance_score < 60:
+            elif performance_score < 65:
                 performance = 'Average'
-            elif performance_score < 80:
+            elif performance_score < 82:
                 performance = 'Good'
             else:
                 performance = 'Excellent'
             
+            # Add edge cases and special scenarios (5% of data)
+            if i % 20 == 0:
+                # High grades but poor attendance
+                if np.random.random() < 0.3:
+                    attendance = np.random.uniform(40, 65)
+                # High study hours but low grades (inefficient studying)
+                elif np.random.random() < 0.3:
+                    study_hours = np.random.uniform(8, 12)
+                    previous_grades = np.random.uniform(50, 70)
+                # Perfect attendance but struggling
+                elif np.random.random() < 0.3:
+                    attendance = np.random.uniform(95, 100)
+                    previous_grades = np.random.uniform(40, 60)
+            
             data.append({
-                'Previous_Grades': previous_grades,
-                'Attendance_Percentage': attendance,
-                'Study_Hours_Per_Day': study_hours,
+                'Previous_Grades': round(previous_grades, 2),
+                'Attendance_Percentage': round(attendance, 2),
+                'Study_Hours_Per_Day': round(study_hours, 2),
                 'Extracurricular_Activities': extracurricular,
                 'Interactiveness': interactiveness,
                 'Practical_Knowledge': practical_knowledge,
