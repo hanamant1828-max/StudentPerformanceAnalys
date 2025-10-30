@@ -468,5 +468,53 @@ def model_info():
         logging.error(f"Error getting model info: {str(e)}")
         return jsonify({'error': 'Failed to get model information'}), 500
 
+@app.route('/api/sample_files')
+def list_sample_files():
+    """List available sample Excel files"""
+    try:
+        import os
+        sample_dir = 'sample_data'
+        if not os.path.exists(sample_dir):
+            return jsonify({'files': []})
+        
+        files = [f for f in os.listdir(sample_dir) if f.endswith('.xlsx')]
+        file_info = []
+        
+        for filename in files:
+            filepath = os.path.join(sample_dir, filename)
+            size = os.path.getsize(filepath)
+            file_info.append({
+                'filename': filename,
+                'size': size,
+                'download_url': url_for('download_sample_file', filename=filename)
+            })
+        
+        return jsonify({'files': file_info})
+    except Exception as e:
+        logging.error(f"Error listing sample files: {str(e)}")
+        return jsonify({'error': 'Failed to list sample files'}), 500
+
+@app.route('/download/sample/<filename>')
+def download_sample_file(filename):
+    """Download a sample Excel file"""
+    try:
+        from flask import send_from_directory
+        import os
+        
+        sample_dir = 'sample_data'
+        
+        # Security: only allow .xlsx files and prevent directory traversal
+        if not filename.endswith('.xlsx') or '/' in filename or '\\' in filename:
+            return jsonify({'error': 'Invalid filename'}), 400
+        
+        filepath = os.path.join(sample_dir, filename)
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'File not found'}), 404
+        
+        return send_from_directory(sample_dir, filename, as_attachment=True)
+    except Exception as e:
+        logging.error(f"Error downloading sample file: {str(e)}")
+        return jsonify({'error': 'Failed to download file'}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
