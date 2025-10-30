@@ -75,29 +75,29 @@ class StudentPerformanceModel:
             # Previous grades with realistic distribution aligned to performance levels
             # Poor: <60, Average: 60-74, Good: 75-84, Excellent: 85-100
             if archetype == 'poor':
-                previous_grades = np.clip(np.random.normal(50, 12), 0, 59)
+                previous_grades = np.clip(np.random.normal(50, 8), 0, 59)
             elif archetype == 'average':
-                previous_grades = np.clip(np.random.normal(67, 7), 60, 74)
+                previous_grades = np.clip(np.random.normal(67, 5), 60, 74)
             elif archetype == 'good':
-                previous_grades = np.clip(np.random.normal(79.5, 5), 75, 84)
+                previous_grades = np.clip(np.random.normal(79.5, 4), 75, 84)
             elif archetype == 'excellent':
-                previous_grades = np.clip(np.random.normal(92, 5), 85, 100)
+                previous_grades = np.clip(np.random.normal(91, 4), 85, 100)
             else:  # inconsistent
                 previous_grades = np.clip(np.random.normal(base_performance * 85 + 15, variance * 100), 0, 100)
             
             # Attendance aligned to performance levels
             # Poor: <70%, Average: 70-79%, Good: 80-89%, Excellent: 90-100%
-            attendance_correlation = 0.85 if np.random.random() > 0.1 else 0.6
+            attendance_correlation = 0.95 if np.random.random() > 0.1 else 0.85
             if archetype == 'poor':
-                attendance = np.clip(np.random.normal(60, 10), 0, 69) * attendance_correlation
+                attendance = np.clip(np.random.normal(60, 8), 0, 69)
             elif archetype == 'average':
-                attendance = np.clip(np.random.normal(74.5, 5), 70, 79) * attendance_correlation
+                attendance = np.clip(np.random.normal(74.5, 4), 70, 79)
             elif archetype == 'good':
-                attendance = np.clip(np.random.normal(84.5, 5), 80, 89) * attendance_correlation
+                attendance = np.clip(np.random.normal(84.5, 4), 80, 89)
             elif archetype == 'excellent':
-                attendance = np.clip(np.random.normal(95, 5), 90, 100) * attendance_correlation
+                attendance = np.clip(np.random.normal(95, 3), 90, 100)
             else:  # inconsistent
-                attendance = np.clip(np.random.normal(base_performance * 80 + 20, variance * 80) * attendance_correlation, 0, 100)
+                attendance = np.clip(np.random.normal(base_performance * 80 + 20, variance * 80), 0, 100)
             
             # Study hours aligned to performance levels
             # Poor: <2 hrs/day, Average: 2-4 hrs/day, Good: 4-6 hrs/day, Excellent: 6+ hrs/day
@@ -170,20 +170,20 @@ class StudentPerformanceModel:
             comm_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[communication_skill]
             
             performance_score = (
-                previous_grades * 0.40 +
-                attendance * 0.25 +
-                min(study_hours * 8, 64) * 0.12 +
-                min(extracurricular * 2.5, 15) * 0.06 +
-                interactiveness * 12 * 0.05 +
-                practical_encoded_val * 4 * 0.06 +
-                comm_encoded_val * 4 * 0.06
+                previous_grades * 0.45 +
+                attendance * 0.30 +
+                min(study_hours * 6, 48) * 0.10 +
+                min(extracurricular * 2, 12) * 0.05 +
+                interactiveness * 8 * 0.03 +
+                practical_encoded_val * 2 * 0.04 +
+                comm_encoded_val * 2 * 0.03
             )
             
             # Add minimal random noise
-            performance_score += np.random.normal(0, 1.5)
+            performance_score += np.random.normal(0, 1.0)
             
             # Determine performance category with realistic boundaries
-            # Poor: < 45, Average: 45-65, Good: 65-80, Excellent: > 80
+            # Poor: < 45, Average: 45-65, Good: 65-80, Excellent: >= 80
             if performance_score < 45:
                 performance = 'Poor'
             elif performance_score < 65:
