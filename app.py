@@ -77,17 +77,23 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Login page"""
+    logging.info(f"Login route accessed - Method: {request.method}")
     if current_user.is_authenticated:
+        logging.info("User already authenticated, redirecting to index")
         return redirect(url_for('index'))
     
     if request.method == 'POST':
+        logging.info("POST request received to /login")
         data = request.get_json() if request.is_json else request.form
         username = data.get('username', '').strip()
         password = data.get('password', '')
         remember = bool(data.get('remember', False))
         
+        logging.info(f"Login attempt for username: {username}")
+        
         if not username or not password:
             error = 'Please provide both username and password'
+            logging.warning(f"Login failed: missing credentials")
             if request.is_json:
                 return jsonify({'error': error}), 400
             flash(error, 'error')
@@ -98,9 +104,13 @@ def login():
             (User.username == username) | (User.email == username)
         ).first()
         
+        logging.info(f"User found: {user is not None}")
+        
         if user and user.check_password(password):
+            logging.info(f"Password check passed for user: {username}")
             if not user.active_status:
                 error = 'Your account has been deactivated. Please contact an administrator.'
+                logging.warning(f"Login failed: account deactivated for {username}")
                 if request.is_json:
                     return jsonify({'error': error}), 400
                 flash(error, 'error')
@@ -109,6 +119,7 @@ def login():
             login_user(user, remember=remember)
             user.last_login = datetime.utcnow()
             db.session.commit()
+            logging.info(f"User {username} logged in successfully")
             
             if request.is_json:
                 return jsonify({'success': True, 'redirect': url_for('index')})
@@ -117,6 +128,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('index'))
         else:
             error = 'Invalid username or password'
+            logging.warning(f"Login failed: invalid credentials for {username}")
             if request.is_json:
                 return jsonify({'error': error}), 400
             flash(error, 'error')
