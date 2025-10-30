@@ -50,65 +50,65 @@ class StudentPerformanceModel:
             
             # Define different student archetypes for more realistic data - balanced distribution
             archetype = np.random.choice(['poor', 'average', 'good', 'excellent', 'inconsistent'], 
-                                        p=[0.20, 0.30, 0.30, 0.15, 0.05])
+                                        p=[0.15, 0.30, 0.35, 0.15, 0.05])
             
             if archetype == 'poor':
-                # Poor: Score < 45 (Grades < 60, Attendance < 70%, Study < 2 hrs/day)
-                base_performance = np.random.uniform(0, 0.45)
+                # Poor: Score < 50 (Grades < 60, Attendance < 70%, Study < 2 hrs/day)
+                base_performance = np.random.uniform(0, 0.50)
                 variance = 0.10
             elif archetype == 'average':
-                # Average: Score 45-65 (Grades 60-74, Attendance 70-79%, Study 2-4 hrs/day)
-                base_performance = np.random.uniform(0.45, 0.65)
+                # Average: Score 50-70 (Grades 60-75, Attendance 70-80%, Study 2-5 hrs/day)
+                base_performance = np.random.uniform(0.50, 0.70)
                 variance = 0.08
             elif archetype == 'good':
-                # Good: Score 65-80 (Grades 75-84, Attendance 80-89%, Study 4-6 hrs/day)
-                base_performance = np.random.uniform(0.65, 0.80)
+                # Good: Score 70-85 (Grades 75-90, Attendance 80-92%, Study 5-8 hrs/day)
+                base_performance = np.random.uniform(0.70, 0.85)
                 variance = 0.07
             elif archetype == 'excellent':
-                # Excellent: Score > 80 (Grades 85-100, Attendance 90-100%, Study 6+ hrs/day)
-                base_performance = np.random.uniform(0.80, 1.0)
+                # Excellent: Score > 85 (Grades 85-100, Attendance 90-100%, Study 6+ hrs/day)
+                base_performance = np.random.uniform(0.85, 1.0)
                 variance = 0.05
             else:  # inconsistent
                 base_performance = np.random.uniform(0.30, 0.75)
                 variance = 0.18
             
             # Previous grades with realistic distribution aligned to performance levels
-            # Poor: <60, Average: 60-74, Good: 75-84, Excellent: 85-100
+            # Poor: <60, Average: 60-75, Good: 75-90, Excellent: 85-100
             if archetype == 'poor':
                 previous_grades = np.clip(np.random.normal(50, 8), 0, 59)
             elif archetype == 'average':
-                previous_grades = np.clip(np.random.normal(67, 5), 60, 74)
+                previous_grades = np.clip(np.random.normal(67, 6), 60, 75)
             elif archetype == 'good':
-                previous_grades = np.clip(np.random.normal(79.5, 4), 75, 84)
+                previous_grades = np.clip(np.random.normal(82, 5), 75, 90)
             elif archetype == 'excellent':
-                previous_grades = np.clip(np.random.normal(91, 4), 85, 100)
+                previous_grades = np.clip(np.random.normal(92, 4), 85, 100)
             else:  # inconsistent
                 previous_grades = np.clip(np.random.normal(base_performance * 85 + 15, variance * 100), 0, 100)
             
             # Attendance aligned to performance levels
-            # Poor: <70%, Average: 70-79%, Good: 80-89%, Excellent: 90-100%
+            # Poor: <70%, Average: 70-80%, Good: 80-92%, Excellent: 90-100%
             attendance_correlation = 0.95 if np.random.random() > 0.1 else 0.85
             if archetype == 'poor':
                 attendance = np.clip(np.random.normal(60, 8), 0, 69)
             elif archetype == 'average':
-                attendance = np.clip(np.random.normal(74.5, 4), 70, 79)
+                attendance = np.clip(np.random.normal(75, 4), 70, 80)
             elif archetype == 'good':
-                attendance = np.clip(np.random.normal(84.5, 4), 80, 89)
+                attendance = np.clip(np.random.normal(86, 4), 80, 92)
             elif archetype == 'excellent':
                 attendance = np.clip(np.random.normal(95, 3), 90, 100)
             else:  # inconsistent
                 attendance = np.clip(np.random.normal(base_performance * 80 + 20, variance * 80), 0, 100)
             
             # Study hours aligned to performance levels
-            # Poor: <2 hrs/day, Average: 2-4 hrs/day, Good: 4-6 hrs/day, Excellent: 6+ hrs/day
+            # Poor: <2 hrs/day, Average: 2-5 hrs/day, Good: 5-8 hrs/day, Excellent: 6+ hrs/day
             if archetype == 'poor':
                 study_hours = np.clip(np.random.gamma(2, 0.8), 0, 2)
             elif archetype == 'average':
-                study_hours = np.clip(np.random.normal(3, 0.7), 2, 4)
+                study_hours = np.clip(np.random.normal(3.5, 0.8), 2, 5)
             elif archetype == 'good':
-                study_hours = np.clip(np.random.normal(5, 0.7), 4, 6)
+                study_hours = np.clip(np.random.normal(6.5, 0.9), 5, 8)
             elif archetype == 'excellent':
-                study_hours = np.clip(np.random.gamma(3.5, 2), 6, 12)
+                study_hours = np.clip(np.random.gamma(3.5, 2.2), 6, 12)
             else:  # inconsistent
                 base_study = base_performance * 7 + 1
                 study_hours = np.clip(
@@ -169,26 +169,28 @@ class StudentPerformanceModel:
             practical_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[practical_knowledge]
             comm_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[communication_skill]
             
+            # Improved scoring formula that scales to 100
             performance_score = (
-                previous_grades * 0.45 +
-                attendance * 0.30 +
-                min(study_hours * 6, 48) * 0.10 +
-                min(extracurricular * 2, 12) * 0.05 +
-                interactiveness * 8 * 0.03 +
-                practical_encoded_val * 2 * 0.04 +
-                comm_encoded_val * 2 * 0.03
+                previous_grades * 0.35 +                           # Max: 35 points
+                attendance * 0.25 +                                 # Max: 25 points
+                min(study_hours / 12 * 100, 100) * 0.15 +          # Max: 15 points (normalize study hours)
+                min(extracurricular / 6 * 100, 100) * 0.08 +       # Max: 8 points (normalize activities)
+                interactiveness * 100 * 0.05 +                      # Max: 5 points
+                (practical_encoded_val / 3 * 100) * 0.07 +         # Max: 7 points
+                (comm_encoded_val / 3 * 100) * 0.05                # Max: 5 points
             )
+            # Total max possible: 100 points
             
             # Add minimal random noise
-            performance_score += np.random.normal(0, 1.0)
+            performance_score += np.random.normal(0, 1.5)
             
             # Determine performance category with realistic boundaries
-            # Poor: < 45, Average: 45-65, Good: 65-80, Excellent: >= 80
-            if performance_score < 45:
+            # Poor: < 50, Average: 50-70, Good: 70-85, Excellent: >= 85
+            if performance_score < 50:
                 performance = 'Poor'
-            elif performance_score < 65:
+            elif performance_score < 70:
                 performance = 'Average'
-            elif performance_score < 80:
+            elif performance_score < 85:
                 performance = 'Good'
             else:
                 performance = 'Excellent'
