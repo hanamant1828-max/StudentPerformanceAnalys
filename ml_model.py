@@ -54,23 +54,23 @@ class StudentPerformanceModel:
             
             if archetype == 'poor':
                 # Poor: Score < 45 (Grades < 60, Attendance < 70%, Study < 2 hrs/day)
-                base_performance = np.random.uniform(0, 0.50)
-                variance = 0.12
+                base_performance = np.random.uniform(0, 0.45)
+                variance = 0.10
             elif archetype == 'average':
                 # Average: Score 45-65 (Grades 60-74, Attendance 70-79%, Study 2-4 hrs/day)
-                base_performance = np.random.uniform(0.50, 0.70)
-                variance = 0.10
+                base_performance = np.random.uniform(0.45, 0.65)
+                variance = 0.08
             elif archetype == 'good':
                 # Good: Score 65-80 (Grades 75-84, Attendance 80-89%, Study 4-6 hrs/day)
-                base_performance = np.random.uniform(0.70, 0.85)
-                variance = 0.08
+                base_performance = np.random.uniform(0.65, 0.80)
+                variance = 0.07
             elif archetype == 'excellent':
                 # Excellent: Score > 80 (Grades 85-100, Attendance 90-100%, Study 6+ hrs/day)
-                base_performance = np.random.uniform(0.85, 1.0)
-                variance = 0.06
+                base_performance = np.random.uniform(0.80, 1.0)
+                variance = 0.05
             else:  # inconsistent
                 base_performance = np.random.uniform(0.30, 0.75)
-                variance = 0.20
+                variance = 0.18
             
             # Previous grades with realistic distribution aligned to performance levels
             # Poor: <60, Average: 60-74, Good: 75-84, Excellent: 85-100
@@ -170,17 +170,17 @@ class StudentPerformanceModel:
             comm_encoded_val = {'Poor': 0, 'Moderate': 1, 'Good': 2, 'Very Good': 3}[communication_skill]
             
             performance_score = (
-                previous_grades * 0.35 +
-                attendance * 0.20 +
-                min(study_hours * 7.5, 60) * 0.15 +
-                min(extracurricular * 3.5, 18) * 0.08 +
-                interactiveness * 15 * 0.07 +
-                practical_encoded_val * 7 * 0.08 +
-                comm_encoded_val * 7 * 0.07
+                previous_grades * 0.40 +
+                attendance * 0.25 +
+                min(study_hours * 8, 64) * 0.12 +
+                min(extracurricular * 2.5, 15) * 0.06 +
+                interactiveness * 12 * 0.05 +
+                practical_encoded_val * 4 * 0.06 +
+                comm_encoded_val * 4 * 0.06
             )
             
-            # Add random noise to make classification more realistic
-            performance_score += np.random.normal(0, 2.5)
+            # Add minimal random noise
+            performance_score += np.random.normal(0, 1.5)
             
             # Determine performance category with realistic boundaries
             # Poor: < 45, Average: 45-65, Good: 65-80, Excellent: > 80
@@ -188,7 +188,7 @@ class StudentPerformanceModel:
                 performance = 'Poor'
             elif performance_score < 65:
                 performance = 'Average'
-            elif performance_score <= 80:
+            elif performance_score < 80:
                 performance = 'Good'
             else:
                 performance = 'Excellent'
