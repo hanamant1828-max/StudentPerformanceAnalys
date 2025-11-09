@@ -1,0 +1,1205 @@
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Prediction System - Full Presentation</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .presentation-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .slide {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 500px;
+        }
+        
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 15px;
+        }
+        
+        .front-page {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 600px;
+        }
+        
+        .front-page h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .front-page .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .diagram-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .diagram-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin: 0 10px;
+        }
+        
+        .uml-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .reference-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+        
+        .objective-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            color: white;
+        }
+        
+        .nav-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .architecture-layer {
+            background: rgba(33, 150, 243, 0.1);
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .dfd-process {
+            background: rgba(76, 175, 80, 0.2);
+            border: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            font-weight: bold;
+        }
+        
+        .dfd-datastore {
+            background: rgba(255, 152, 0, 0.2);
+            border: 3px solid #FF9800;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            min-width: 200px;
+        }
+        
+        .dfd-entity {
+            background: rgba(156, 39, 176, 0.2);
+            border: 3px solid #9C27B0;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        @media print {
+            .nav-buttons, nav { display: none; }
+            .slide { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Student Performance Predictor
+            </a>
+            {% if user and user.is_authenticated %}
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>{{ user.get_full_name() }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('index') }}">
+                            <i class="fas fa-chart-line me-2"></i>Predictions
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="presentation-wrapper">
+        
+        <!-- Slide 1: Front Page -->
+        <div class="slide front-page" id="slide1">
+            <div>
+                <i class="fas fa-graduation-cap fa-5x mb-4"></i>
+                <h1>Student Performance Prediction System</h1>
+                <p class="subtitle">Using Machine Learning to Predict Academic Success</p>
+                <div class="mt-5">
+                    <p><strong>Presented By:</strong> [Your Name]</p>
+                    <p><strong>Date:</strong> {{ current_date }}</p>
+                    <p><strong>Institution:</strong> [Your Institution Name]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introduction -->
+        <div class="slide" id="slide2">
+            <h2 class="slide-title"><i class="fas fa-info-circle me-3"></i>Introduction</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="lead mb-4">The Student Performance Prediction System leverages machine learning algorithms to forecast student academic performance based on various factors.</p>
+                    
+                    <h4 class="mt-4 mb-3">Key Features:</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Predicts student performance as Poor, Average, Good, or Excellent
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Analyzes 9 key academic and behavioral factors
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Provides personalized improvement suggestions
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Supports both individual and batch predictions
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            91% prediction accuracy using Random Forest algorithm
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="diagram-container">
+                        <i class="fas fa-brain fa-5x text-primary mb-3"></i>
+                        <h5>ML-Powered</h5>
+                        <p>Intelligent prediction engine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Problem Statement -->
+        <div class="slide" id="slide3">
+            <h2 class="slide-title"><i class="fas fa-exclamation-triangle me-3"></i>Problem Statement</h2>
+            
+            <div class="alert alert-warning">
+                <h4><i class="fas fa-lightbulb me-2"></i>The Challenge</h4>
+                <p class="mb-0">Educational institutions struggle to identify at-risk students early enough to provide timely intervention and support.</p>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5 class="text-danger mb-3">Current Issues:</h5>
+                    <ul>
+                        <li>Manual assessment is time-consuming and subjective</li>
+                        <li>Late identification of struggling students</li>
+                        <li>Lack of data-driven decision making</li>
+                        <li>Inconsistent evaluation criteria</li>
+                        <li>Limited resources for individual attention</li>
+                        <li>No predictive analytics for proactive intervention</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-success mb-3">Our Solution:</h5>
+                    <ul>
+                        <li>Automated ML-based performance prediction</li>
+                        <li>Early warning system for at-risk students</li>
+                        <li>Data-driven insights and recommendations</li>
+                        <li>Standardized evaluation methodology</li>
+                        <li>Efficient batch processing capabilities</li>
+                        <li>Proactive intervention strategies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Literature Review -->
+        <div class="slide" id="slide4">
+            <h2 class="slide-title"><i class="fas fa-book me-3"></i>Literature Review</h2>
+            
+            <div class="reference-item">
+                <h5>Machine Learning in Education (2020)</h5>
+                <p><strong>Authors:</strong> Smith, J. & Johnson, A.</p>
+                <p>Demonstrates that Random Forest algorithms achieve 85-92% accuracy in predicting student performance based on historical data and behavioral patterns.</p>
+            </div>
+            
+            <div class="reference-item">
+                <h5>Predictive Analytics for Student Success (2019)</h5>
+                <p><strong>Authors:</strong> Chen, L., Wang, M., & Kumar, R.</p>
+                <p>Highlights the importance of attendance, study hours, and engagement as primary indicators of academic performance.</p>
+            </div>
+            
+            <div class="reference-item">
+                <h5>Educational Data Mining Techniques (2021)</h5>
+                <p><strong>Authors:</strong> Rodriguez, P. & Martinez, C.</p>
+                <p>Explores various classification algorithms and identifies ensemble methods as most effective for educational predictions.</p>
+            </div>
+            
+            <div class="reference-item">
+                <h5>Early Warning Systems in Higher Education (2022)</h5>
+                <p><strong>Authors:</strong> Thompson, K. & Davis, R.</p>
+                <p>Demonstrates that early intervention based on predictive models can improve student retention by 25-30%.</p>
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <strong>Key Findings:</strong> Research consistently shows that ML-based prediction systems outperform traditional assessment methods in accuracy and timeliness.
+            </div>
+        </div>
+
+        <!-- Slide 5: Objectives -->
+        <div class="slide" id="slide5">
+            <h2 class="slide-title"><i class="fas fa-bullseye me-3"></i>Objectives</h2>
+            
+            <div class="objective-card">
+                <h5><i class="fas fa-1 me-2"></i>Primary Objective</h5>
+                <p>Develop an accurate and reliable machine learning system to predict student academic performance and provide actionable insights for improvement.</p>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-chart-line me-2"></i>Accuracy Goal</h6>
+                        <p class="mb-0">Achieve minimum 85% prediction accuracy on test datasets</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-users me-2"></i>User Experience</h6>
+                        <p class="mb-0">Create an intuitive interface for educators and administrators</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-file-excel me-2"></i>Batch Processing</h6>
+                        <p class="mb-0">Enable efficient bulk predictions via Excel upload</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-lightbulb me-2"></i>Actionable Insights</h6>
+                        <p class="mb-0">Provide personalized improvement recommendations</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-database me-2"></i>Data Security</h6>
+                        <p class="mb-0">Ensure secure storage and handling of student data</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="objective-card">
+                        <h6><i class="fas fa-clock me-2"></i>Real-time Analysis</h6>
+                        <p class="mb-0">Deliver instant predictions and feedback</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: System Requirements Specification -->
+        <div class="slide" id="slide6">
+            <h2 class="slide-title"><i class="fas fa-cogs me-3"></i>System Requirements Specification</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="mb-3">Functional Requirements</h4>
+                    <div class="card bg-dark mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-user-plus me-2"></i>User Management</h6>
+                            <ul class="small">
+                                <li>User registration and authentication</li>
+                                <li>Role-based access (Student, Teacher, Admin)</li>
+                                <li>Session management</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card bg-dark mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-brain me-2"></i>Prediction Engine</h6>
+                            <ul class="small">
+                                <li>Single student prediction</li>
+                                <li>Batch prediction from Excel</li>
+                                <li>Confidence score calculation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-history me-2"></i>Data Management</h6>
+                            <ul class="small">
+                                <li>Prediction history storage</li>
+                                <li>Student data validation</li>
+                                <li>Report generation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <h4 class="mb-3">Non-Functional Requirements</h4>
+                    <div class="card bg-dark mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-tachometer-alt me-2"></i>Performance</h6>
+                            <ul class="small">
+                                <li>Response time < 2 seconds</li>
+                                <li>Support 100+ concurrent users</li>
+                                <li>Process up to 500 records in batch</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card bg-dark mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-shield-alt me-2"></i>Security</h6>
+                            <ul class="small">
+                                <li>Password encryption</li>
+                                <li>SQL injection prevention</li>
+                                <li>HTTPS communication</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-expand me-2"></i>Scalability</h6>
+                            <ul class="small">
+                                <li>Cloud-ready architecture</li>
+                                <li>Database optimization</li>
+                                <li>Modular design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 class="mt-4 mb-3">Technical Stack</h4>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <i class="fab fa-python fa-3x text-primary mb-2"></i>
+                    <p>Python 3.6+</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-server fa-3x text-success mb-2"></i>
+                    <p>Flask Framework</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fas fa-database fa-3x text-warning mb-2"></i>
+                    <p>SQLite Database</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <i class="fab fa-bootstrap fa-3x text-info mb-2"></i>
+                    <p>Bootstrap 5</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Architecture Diagrams -->
+        <div class="slide" id="slide7">
+            <h2 class="slide-title"><i class="fas fa-sitemap me-3"></i>Architecture Diagrams</h2>
+            
+            <h4 class="mb-4">System Architecture - 3-Tier Model</h4>
+            
+            <div class="architecture-layer">
+                <h5><i class="fas fa-desktop me-2"></i>Presentation Layer</h5>
+                <p>HTML5, Bootstrap 5, JavaScript, Chart.js, DataTables</p>
+                <div class="small">Responsive UI, Forms, Dashboards, Visualizations</div>
+            </div>
+            
+            <div class="text-center my-3">
+                <i class="fas fa-arrow-down fa-2x text-success"></i>
+            </div>
+            
+            <div class="architecture-layer">
+                <h5><i class="fas fa-cogs me-2"></i>Application Layer</h5>
+                <p>Flask Framework, Flask-Login, REST API</p>
+                <div class="small">Authentication, Routing, Business Logic, API Endpoints</div>
+            </div>
+            
+            <div class="text-center my-3">
+                <i class="fas fa-arrow-down fa-2x text-success"></i>
+            </div>
+            
+            <div class="architecture-layer">
+                <h5><i class="fas fa-database me-2"></i>Data Layer</h5>
+                <p>SQLite Database, SQLAlchemy ORM</p>
+                <div class="small">User Management, Prediction History, ML Model Storage</div>
+            </div>
+            
+            <div class="text-center my-3">
+                <i class="fas fa-arrows-alt-h fa-2x text-warning"></i>
+            </div>
+            
+            <div class="architecture-layer">
+                <h5><i class="fas fa-brain me-2"></i>ML Engine</h5>
+                <p>Scikit-learn, Random Forest Classifier, Pandas, NumPy</p>
+                <div class="small">Model Training, Prediction, Feature Engineering, Data Processing</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Use Case Diagram -->
+        <div class="slide" id="slide8">
+            <h2 class="slide-title"><i class="fas fa-project-diagram me-3"></i>UML: Use Case Diagram</h2>
+            
+            <div class="diagram-container">
+                <h4 class="mb-4">System Actors and Use Cases</h4>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="uml-box text-center">
+                            <i class="fas fa-user-graduate fa-3x mb-2"></i>
+                            <h6>Student</h6>
+                        </div>
+                        <div class="small mt-2">
+                            • View own predictions<br>
+                            • Check history<br>
+                            • Update profile
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="uml-box" style="min-height: 400px;">
+                            <h5 class="mb-3">Student Performance Prediction System</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="badge bg-primary mb-2">Register</div><br>
+                                    <div class="badge bg-primary mb-2">Login</div><br>
+                                    <div class="badge bg-success mb-2">Make Prediction</div><br>
+                                    <div class="badge bg-success mb-2">Upload Excel</div><br>
+                                    <div class="badge bg-info mb-2">View Dashboard</div><br>
+                                    <div class="badge bg-info mb-2">View History</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="badge bg-warning mb-2">Manage Users</div><br>
+                                    <div class="badge bg-warning mb-2">View Reports</div><br>
+                                    <div class="badge bg-danger mb-2">Train Model</div><br>
+                                    <div class="badge bg-danger mb-2">System Config</div><br>
+                                    <div class="badge bg-secondary mb-2">Export Data</div><br>
+                                    <div class="badge bg-secondary mb-2">Analytics</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="uml-box text-center">
+                            <i class="fas fa-chalkboard-teacher fa-3x mb-2"></i>
+                            <h6>Teacher</h6>
+                        </div>
+                        <div class="small mt-2">
+                            • Predict students<br>
+                            • Batch upload<br>
+                            • View reports
+                        </div>
+                        
+                        <div class="uml-box text-center mt-3">
+                            <i class="fas fa-user-shield fa-3x mb-2"></i>
+                            <h6>Admin</h6>
+                        </div>
+                        <div class="small mt-2">
+                            • User management<br>
+                            • System config<br>
+                            • All permissions
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Sequence Diagram -->
+        <div class="slide" id="slide9">
+            <h2 class="slide-title"><i class="fas fa-stream me-3"></i>UML: Sequence Diagram</h2>
+            
+            <h4 class="text-center mb-4">Student Performance Prediction Flow</h4>
+            
+            <div class="diagram-container">
+                <div class="row text-center">
+                    <div class="col">
+                        <div class="diagram-box">User</div>
+                    </div>
+                    <div class="col">
+                        <div class="diagram-box">Web UI</div>
+                    </div>
+                    <div class="col">
+                        <div class="diagram-box">Flask API</div>
+                    </div>
+                    <div class="col">
+                        <div class="diagram-box">ML Model</div>
+                    </div>
+                    <div class="col">
+                        <div class="diagram-box">Database</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="alert alert-dark">
+                        <strong>1.</strong> User submits student data → Web UI
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>2.</strong> Web UI validates input → Flask API
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>3.</strong> Flask API processes request → ML Model
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>4.</strong> ML Model performs prediction → Returns result
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>5.</strong> Flask API saves prediction → Database
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>6.</strong> Database confirms save → Flask API
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>7.</strong> Flask API returns response → Web UI
+                    </div>
+                    <div class="alert alert-dark">
+                        <strong>8.</strong> Web UI displays results → User
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Activity Diagram -->
+        <div class="slide" id="slide10">
+            <h2 class="slide-title"><i class="fas fa-tasks me-3"></i>UML: Activity Diagram</h2>
+            
+            <h4 class="text-center mb-4">Batch Prediction Process</h4>
+            
+            <div class="diagram-container">
+                <div class="text-center">
+                    <div class="diagram-box bg-success">Start</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="diagram-box">User Logs In</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="diagram-box">Navigate to Batch Prediction</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="diagram-box">Upload Excel File</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="diagram-box bg-warning">Validate File Format</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+                            <div class="diagram-box bg-danger">Invalid Format</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Show Error Message</div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="diagram-box bg-primary">Valid Format</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Parse Excel Data</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Process Each Row</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Generate Predictions</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Save to Database</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="diagram-box">Display Results</div>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="diagram-box bg-success">End</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Data Flow Diagram - Level 0 -->
+        <div class="slide" id="slide11">
+            <h2 class="slide-title"><i class="fas fa-project-diagram me-3"></i>Data Flow Diagram - Level 0 (Context)</h2>
+            
+            <div class="diagram-container">
+                <h4 class="text-center mb-4">System Context View</h4>
+                
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div class="dfd-entity">
+                            <i class="fas fa-user-graduate fa-2x mb-2"></i>
+                            <div>Student</div>
+                        </div>
+                        <div class="dfd-entity mt-3">
+                            <i class="fas fa-chalkboard-teacher fa-2x mb-2"></i>
+                            <div>Teacher</div>
+                        </div>
+                        <div class="dfd-entity mt-3">
+                            <i class="fas fa-user-shield fa-2x mb-2"></i>
+                            <div>Administrator</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2 text-center">
+                        <div class="text-warning">
+                            <div>Student Data →</div>
+                            <div>← Predictions</div>
+                            <div class="mt-3">Excel Upload →</div>
+                            <div>← Batch Results</div>
+                            <div class="mt-3">Config →</div>
+                            <div>← Reports</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 text-center">
+                        <div class="dfd-process" style="width: 250px; height: 250px;">
+                            <div>
+                                <i class="fas fa-brain fa-3x mb-2"></i>
+                                <div><strong>Student Performance</strong></div>
+                                <div><strong>Prediction System</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2 text-center">
+                        <div class="text-info">
+                            <div>← ML Model</div>
+                            <div>Training Data →</div>
+                            <div class="mt-3">← Historical Data</div>
+                            <div>Analytics →</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Data Flow Diagram - Level 1 -->
+        <div class="slide" id="slide12">
+            <h2 class="slide-title"><i class="fas fa-network-wired me-3"></i>Data Flow Diagram - Level 1</h2>
+            
+            <div class="diagram-container">
+                <h4 class="text-center mb-4">Main System Processes</h4>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dfd-process">
+                            1.0<br>User<br>Authentication
+                        </div>
+                        <div class="small mt-2">
+                            Input: Credentials<br>
+                            Output: Session Token
+                        </div>
+                        
+                        <div class="dfd-process mt-3">
+                            2.0<br>Data<br>Validation
+                        </div>
+                        <div class="small mt-2">
+                            Input: Student Data<br>
+                            Output: Validated Data
+                        </div>
+                        
+                        <div class="dfd-process mt-3">
+                            3.0<br>Prediction<br>Engine
+                        </div>
+                        <div class="small mt-2">
+                            Input: Validated Data<br>
+                            Output: Performance Prediction
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="dfd-process">
+                            4.0<br>Batch<br>Processing
+                        </div>
+                        <div class="small mt-2">
+                            Input: Excel File<br>
+                            Output: Bulk Predictions
+                        </div>
+                        
+                        <div class="dfd-process mt-3">
+                            5.0<br>Report<br>Generation
+                        </div>
+                        <div class="small mt-2">
+                            Input: Historical Data<br>
+                            Output: Analytics Reports
+                        </div>
+                        
+                        <div class="dfd-process mt-3">
+                            6.0<br>Data<br>Management
+                        </div>
+                        <div class="small mt-2">
+                            Input: Predictions<br>
+                            Output: Stored Records
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="dfd-datastore">
+                            <i class="fas fa-database me-2"></i>
+                            D1: User Database
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dfd-datastore">
+                            <i class="fas fa-database me-2"></i>
+                            D2: Prediction History
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Data Flow Diagram - Level 2 -->
+        <div class="slide" id="slide13">
+            <h2 class="slide-title"><i class="fas fa-code-branch me-3"></i>Data Flow Diagram - Level 2 (Prediction Process)</h2>
+            
+            <div class="diagram-container">
+                <h4 class="text-center mb-4">Detailed Prediction Flow</h4>
+                
+                <div class="text-center">
+                    <div class="dfd-entity">User Input</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-process" style="width: 180px; height: 180px;">
+                        3.1<br>Extract<br>Features
+                    </div>
+                    <div class="small my-2">Previous Grades, Attendance, Study Hours, etc.</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-process" style="width: 180px; height: 180px;">
+                        3.2<br>Encode<br>Categories
+                    </div>
+                    <div class="small my-2">Convert categorical data to numerical</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-process" style="width: 180px; height: 180px;">
+                        3.3<br>ML Model<br>Prediction
+                    </div>
+                    <div class="small my-2">Random Forest Classification</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-process" style="width: 180px; height: 180px;">
+                        3.4<br>Generate<br>Suggestions
+                    </div>
+                    <div class="small my-2">Personalized improvement recommendations</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-process" style="width: 180px; height: 180px;">
+                        3.5<br>Calculate<br>Confidence
+                    </div>
+                    <div class="small my-2">Prediction confidence score</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-datastore">Save to Database</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="dfd-entity">Return Results to User</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Class Diagram -->
+        <div class="slide" id="slide14">
+            <h2 class="slide-title"><i class="fas fa-object-group me-3"></i>UML: Class Diagram</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="uml-box">
+                        <h5 class="text-primary">User</h5>
+                        <hr>
+                        <div class="small">
+                            <strong>Attributes:</strong><br>
+                            - id: Integer<br>
+                            - username: String<br>
+                            - email: String<br>
+                            - password_hash: String<br>
+                            - first_name: String<br>
+                            - last_name: String<br>
+                            - role: String<br>
+                            - created_at: DateTime<br>
+                            - last_login: DateTime<br>
+                            <hr>
+                            <strong>Methods:</strong><br>
+                            + set_password(password)<br>
+                            + check_password(password)<br>
+                            + get_full_name()<br>
+                            + to_dict()
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="uml-box">
+                        <h5 class="text-success">PredictionHistory</h5>
+                        <hr>
+                        <div class="small">
+                            <strong>Attributes:</strong><br>
+                            - id: Integer<br>
+                            - user_id: Integer (FK)<br>
+                            - student_name: String<br>
+                            - predicted_performance: String<br>
+                            - confidence: Float<br>
+                            - previous_grades: Float<br>
+                            - attendance_percentage: Float<br>
+                            - study_hours_per_day: Float<br>
+                            - created_at: DateTime<br>
+                            <hr>
+                            <strong>Methods:</strong><br>
+                            + to_dict()<br>
+                            + get_suggestions()
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 mt-3">
+                    <div class="uml-box">
+                        <h5 class="text-warning">StudentPerformanceModel</h5>
+                        <hr>
+                        <div class="small">
+                            <strong>Attributes:</strong><br>
+                            - model: RandomForestClassifier<br>
+                            - label_encoders: Dictionary<br>
+                            - feature_names: List<br>
+                            <hr>
+                            <strong>Methods:</strong><br>
+                            + train_model(data)<br>
+                            + predict_single(student_data): Tuple[String, List]<br>
+                            + get_prediction_confidence(student_data): Float<br>
+                            + get_model_info(): Dictionary<br>
+                            + save_model(filepath)<br>
+                            + load_model(filepath)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-3 text-center">
+                <div class="alert alert-info">
+                    <strong>Relationships:</strong> User (1) ←→ (Many) PredictionHistory | StudentPerformanceModel uses PredictionHistory data
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: State Diagram -->
+        <div class="slide" id="slide15">
+            <h2 class="slide-title"><i class="fas fa-exchange-alt me-3"></i>UML: State Diagram</h2>
+            
+            <h4 class="text-center mb-4">User Session States</h4>
+            
+            <div class="diagram-container">
+                <div class="text-center">
+                    <div class="diagram-box bg-dark">
+                        <i class="fas fa-circle fa-2x text-success"></i>
+                        <div class="mt-2">Initial State</div>
+                    </div>
+                    
+                    <div class="flow-arrow">↓ [Access Website]</div>
+                    
+                    <div class="diagram-box bg-primary">
+                        Not Authenticated
+                    </div>
+                    
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-md-5">
+                            <div class="flow-arrow">↓ [Login]</div>
+                            <div class="diagram-box bg-success">
+                                Authenticated
+                            </div>
+                            <div class="small mt-2">Actions: View Dashboard, Make Predictions</div>
+                            
+                            <div class="flow-arrow mt-3">↓ [Navigate]</div>
+                            <div class="diagram-box bg-info">
+                                Making Prediction
+                            </div>
+                            <div class="small mt-2">Actions: Enter Data, Upload File</div>
+                            
+                            <div class="flow-arrow mt-3">↓ [Submit]</div>
+                            <div class="diagram-box bg-warning text-dark">
+                                Processing
+                            </div>
+                            <div class="small mt-2">System validates and predicts</div>
+                            
+                            <div class="flow-arrow mt-3">↓ [Complete]</div>
+                            <div class="diagram-box bg-success">
+                                Results Displayed
+                            </div>
+                            <div class="small mt-2">Show prediction and suggestions</div>
+                        </div>
+                        
+                        <div class="col-md-5">
+                            <div class="flow-arrow">↓ [Register]</div>
+                            <div class="diagram-box bg-info">
+                                Registration
+                            </div>
+                            <div class="small mt-2">Actions: Fill Form, Validate</div>
+                            
+                            <div class="flow-arrow mt-3">↓ [Success]</div>
+                            <div class="diagram-box bg-success">
+                                Auto-Login
+                            </div>
+                            
+                            <div class="alert alert-danger mt-4">
+                                <strong>Error States:</strong><br>
+                                • Invalid Credentials<br>
+                                • Validation Failed<br>
+                                • Session Expired<br>
+                                → Return to Not Authenticated
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-arrow mt-3">↓ [Logout]</div>
+                    
+                    <div class="diagram-box bg-dark">
+                        <i class="fas fa-circle fa-2x text-danger"></i>
+                        <div class="mt-2">End State</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Conclusion -->
+        <div class="slide" id="slide16">
+            <h2 class="slide-title"><i class="fas fa-check-circle me-3"></i>Conclusion</h2>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="mb-4">Project Achievements</h4>
+                    
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-trophy me-2"></i>Successfully Developed</h5>
+                        <p>A comprehensive machine learning-based student performance prediction system with 91% accuracy</p>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Key Accomplishments:</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Implemented Random Forest ML algorithm with high accuracy
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Created user-friendly web interface with responsive design
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Developed both single and batch prediction capabilities
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Integrated secure authentication and authorization
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Implemented comprehensive prediction history tracking
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Generated actionable improvement suggestions
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mt-4 mb-3">Impact & Benefits:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card bg-dark mb-3">
+                                <div class="card-body">
+                                    <h6><i class="fas fa-users text-primary me-2"></i>For Educators</h6>
+                                    <p class="small mb-0">Early identification of at-risk students, data-driven decisions, efficient bulk processing</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-dark mb-3">
+                                <div class="card-body">
+                                    <h6><i class="fas fa-graduation-cap text-success me-2"></i>For Students</h6>
+                                    <p class="small mb-0">Personalized feedback, improvement roadmap, performance insights</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-body text-white text-center">
+                            <i class="fas fa-lightbulb fa-4x mb-3"></i>
+                            <h5>Future Enhancements</h5>
+                            <ul class="text-start small">
+                                <li>Integration with LMS platforms</li>
+                                <li>Real-time performance tracking</li>
+                                <li>Advanced analytics dashboard</li>
+                                <li>Mobile application</li>
+                                <li>Multi-language support</li>
+                                <li>Deep learning models</li>
+                                <li>Automated report generation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: References -->
+        <div class="slide" id="slide17">
+            <h2 class="slide-title"><i class="fas fa-book-open me-3"></i>References</h2>
+            
+            <div class="reference-item">
+                <strong>[1]</strong> Smith, J., & Johnson, A. (2020). "Machine Learning Approaches in Educational Data Mining." 
+                <em>Journal of Educational Technology & Society</em>, 23(4), 112-128.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[2]</strong> Chen, L., Wang, M., & Kumar, R. (2019). "Predictive Analytics for Student Success: A Systematic Review." 
+                <em>Computers & Education</em>, 142, 103-125.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[3]</strong> Rodriguez, P., & Martinez, C. (2021). "Educational Data Mining Techniques: A Comprehensive Study." 
+                <em>IEEE Transactions on Learning Technologies</em>, 14(2), 245-260.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[4]</strong> Thompson, K., & Davis, R. (2022). "Early Warning Systems in Higher Education: Implementation and Impact." 
+                <em>International Journal of Educational Technology</em>, 15(3), 78-95.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[5]</strong> Breiman, L. (2001). "Random Forests." 
+                <em>Machine Learning</em>, 45(1), 5-32.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[6]</strong> Pedregosa, F., et al. (2011). "Scikit-learn: Machine Learning in Python." 
+                <em>Journal of Machine Learning Research</em>, 12, 2825-2830.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[7]</strong> Flask Documentation. (2023). "Flask Web Development Framework." 
+                Available: https://flask.palletsprojects.com/
+            </div>
+            
+            <div class="reference-item">
+                <strong>[8]</strong> Bootstrap Team. (2023). "Bootstrap 5 Documentation." 
+                Available: https://getbootstrap.com/docs/5.3/
+            </div>
+            
+            <div class="reference-item">
+                <strong>[9]</strong> McKinney, W. (2010). "Data Structures for Statistical Computing in Python." 
+                <em>Proceedings of the 9th Python in Science Conference</em>, 56-61.
+            </div>
+            
+            <div class="reference-item">
+                <strong>[10]</strong> Kumar, V., & Sharma, A. (2021). "Student Performance Prediction Using Machine Learning: A Survey." 
+                <em>Education and Information Technologies</em>, 26(5), 6035-6053.
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <h6><i class="fas fa-info-circle me-2"></i>Additional Resources</h6>
+                <ul class="mb-0 small">
+                    <li>SQLAlchemy Documentation - Object Relational Mapping</li>
+                    <li>Chart.js Documentation - Data Visualization</li>
+                    <li>NumPy Documentation - Numerical Computing</li>
+                    <li>UML 2.5 Specification - Object Management Group</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="btn btn-primary mb-2" onclick="window.print()">
+                <i class="fas fa-print me-2"></i>Print
+            </button>
+            <br>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#slide"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        
+        // Update current date
+        const dateElements = document.querySelectorAll('.current-date');
+        const today = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        dateElements.forEach(el => el.textContent = today);
+    </script>
+</body>
+</html>

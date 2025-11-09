@@ -464,6 +464,13 @@ def presentation():
     """Render presentation contents page"""
     return render_template('presentation.html', user=current_user)
 
+@app.route('/full-presentation')
+@login_required
+def full_presentation():
+    """Render full presentation with all diagrams"""
+    from datetime import datetime
+    return render_template('full_presentation.html', user=current_user, current_date=datetime.now().strftime('%B %d, %Y'))
+
 @app.route('/api/model_info')
 def model_info():
     """Get information about the ML model"""
