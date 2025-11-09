@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Contents - Student Performance Prediction System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    
+    <style>
+        .presentation-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .presentation-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--bs-border-color);
+            color: var(--bs-body-color);
+        }
+        
+        .contents-list {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contents-list ol {
+            list-style: none;
+            counter-reset: item;
+            padding-left: 0;
+        }
+        
+        .contents-list li {
+            counter-increment: item;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            position: relative;
+            padding-left: 50px;
+            line-height: 1.6;
+        }
+        
+        .contents-list li::before {
+            content: counter(item) ")";
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: var(--bs-primary);
+            width: 40px;
+        }
+        
+        .sub-items {
+            font-size: 0.95rem;
+            color: var(--bs-secondary);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .back-button {
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .presentation-title {
+                font-size: 1.8rem;
+            }
+            
+            .contents-list {
+                padding: 30px 25px;
+            }
+            
+            .contents-list li {
+                font-size: 1rem;
+                padding-left: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Student Performance Predictor
+            </a>
+            {% if user and user.is_authenticated %}
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>{{ user.get_full_name() }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('index') }}">
+                            <i class="fas fa-chart-line me-2"></i>Predictions
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="presentation-container">
+        <div class="back-button">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+
+        <h1 class="presentation-title">Contents of the Presentation Slides</h1>
+        
+        <div class="contents-list">
+            <ol>
+                <li>Front page of your Presentation</li>
+                <li>Introduction</li>
+                <li>Problem statement</li>
+                <li>Literature Review</li>
+                <li>Objectives</li>
+                <li>System Requirement Specification</li>
+                <li>Architecture Diagrams</li>
+                <li>UML Diagrams (use case, sequence, activity, Data flow diagrams (minimum 3 diagrams), class diagram, state diagram)
+                    <div class="sub-items">
+                        Use case, sequence, activity, Data flow diagrams (minimum 3 diagrams), class diagram, state diagram
+                    </div>
+                </li>
+                <li>Conclusion</li>
+                <li>References</li>
+            </ol>
+        </div>
+
+        <div class="card mt-5">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Presentation Requirements
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-0">
+                    <h6><i class="fas fa-exclamation-circle me-2"></i>Important Notes:</h6>
+                    <ul class="mb-0">
+                        <li>Ensure all UML diagrams are clearly labeled and professional</li>
+                        <li>Include at least 3 data flow diagrams showing system processes</li>
+                        <li>Architecture diagrams should show system components and their relationships</li>
+                        <li>All diagrams should follow standard UML notation</li>
+                        <li>References should be properly formatted (APA/IEEE style recommended)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

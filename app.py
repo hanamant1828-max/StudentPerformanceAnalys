@@ -458,6 +458,12 @@ def predict_batch():
         logging.error(traceback.format_exc())
         return jsonify({'error': f'Batch prediction failed: {str(e)}'}), 500
 
+@app.route('/presentation')
+@login_required
+def presentation():
+    """Render presentation contents page"""
+    return render_template('presentation.html', user=current_user)
+
 @app.route('/api/model_info')
 def model_info():
     """Get information about the ML model"""
