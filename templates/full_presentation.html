@@ -1,20 +1,21 @@
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Performance Prediction System - Full Presentation</title>
     
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: #ffffff;
+            color: #000000;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
@@ -25,12 +26,12 @@
         }
         
         .slide {
-            background: rgba(255, 255, 255, 0.05);
+            background: #ffffff;
             border-radius: 15px;
             padding: 50px;
             margin-bottom: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border: 2px solid #000000;
             min-height: 500px;
         }
         
@@ -38,15 +39,15 @@
             font-size: 2.5rem;
             font-weight: 600;
             margin-bottom: 30px;
-            color: #4CAF50;
-            border-bottom: 3px solid #4CAF50;
+            color: #000000;
+            border-bottom: 3px solid #000000;
             padding-bottom: 15px;
         }
         
         .front-page {
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #000000;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -67,8 +68,8 @@
         }
         
         .diagram-container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background: #f8f9fa;
+            border: 2px dashed #000000;
             border-radius: 10px;
             padding: 30px;
             margin: 20px 0;
@@ -76,8 +77,8 @@
         }
         
         .diagram-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid #4CAF50;
+            background: #ffffff;
+            border: 2px solid #000000;
             border-radius: 8px;
             padding: 20px;
             margin: 15px;
@@ -87,32 +88,33 @@
         
         .flow-arrow {
             font-size: 2rem;
-            color: #4CAF50;
+            color: #000000;
             margin: 0 10px;
         }
         
         .uml-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid #2196F3;
+            background: #f8f9fa;
+            border: 2px solid #000000;
             border-radius: 8px;
             padding: 15px;
             margin: 10px 0;
         }
         
         .reference-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: #f8f9fa;
             padding: 15px;
             margin: 10px 0;
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #000000;
             border-radius: 4px;
         }
         
         .objective-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000000;
             padding: 20px;
             border-radius: 10px;
             margin: 15px 0;
-            color: white;
+            color: #ffffff;
+            border: 2px solid #000000;
         }
         
         .nav-buttons {
@@ -123,8 +125,8 @@
         }
         
         .architecture-layer {
-            background: rgba(33, 150, 243, 0.1);
-            border: 2px solid #2196F3;
+            background: #f8f9fa;
+            border: 2px solid #000000;
             border-radius: 8px;
             padding: 20px;
             margin: 15px 0;
@@ -132,8 +134,8 @@
         }
         
         .dfd-process {
-            background: rgba(76, 175, 80, 0.2);
-            border: 3px solid #4CAF50;
+            background: #ffffff;
+            border: 3px solid #000000;
             border-radius: 50%;
             width: 150px;
             height: 150px;
@@ -145,8 +147,8 @@
         }
         
         .dfd-datastore {
-            background: rgba(255, 152, 0, 0.2);
-            border: 3px solid #FF9800;
+            background: #f8f9fa;
+            border: 3px solid #000000;
             border-radius: 8px;
             padding: 20px;
             margin: 10px;
@@ -155,8 +157,8 @@
         }
         
         .dfd-entity {
-            background: rgba(156, 39, 176, 0.2);
-            border: 3px solid #9C27B0;
+            background: #ffffff;
+            border: 3px solid #000000;
             border-radius: 4px;
             padding: 15px;
             margin: 10px;
@@ -172,16 +174,16 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
+            <a class="navbar-brand text-dark" href="{{ url_for('index') }}">
                 <i class="fas fa-graduation-cap me-2"></i>
                 Student Performance Predictor
             </a>
             {% if user and user.is_authenticated %}
             <div class="navbar-nav ms-auto">
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" 
+                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user me-2"></i>{{ user.get_full_name() }}
                     </a>
@@ -228,31 +230,31 @@
                     
                     <h4 class="mt-4 mb-3">Key Features:</h4>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-transparent">
-                            <i class="fas fa-check-circle text-success me-2"></i>
+                        <li class="list-group-item bg-white">
+                            <i class="fas fa-check-circle me-2"></i>
                             Predicts student performance as Poor, Average, Good, or Excellent
                         </li>
-                        <li class="list-group-item bg-transparent">
-                            <i class="fas fa-check-circle text-success me-2"></i>
+                        <li class="list-group-item bg-white">
+                            <i class="fas fa-check-circle me-2"></i>
                             Analyzes 9 key academic and behavioral factors
                         </li>
-                        <li class="list-group-item bg-transparent">
-                            <i class="fas fa-check-circle text-success me-2"></i>
+                        <li class="list-group-item bg-white">
+                            <i class="fas fa-check-circle me-2"></i>
                             Provides personalized improvement suggestions
                         </li>
-                        <li class="list-group-item bg-transparent">
-                            <i class="fas fa-check-circle text-success me-2"></i>
+                        <li class="list-group-item bg-white">
+                            <i class="fas fa-check-circle me-2"></i>
                             Supports both individual and batch predictions
                         </li>
-                        <li class="list-group-item bg-transparent">
-                            <i class="fas fa-check-circle text-success me-2"></i>
+                        <li class="list-group-item bg-white">
+                            <i class="fas fa-check-circle me-2"></i>
                             91% prediction accuracy using Random Forest algorithm
                         </li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <div class="diagram-container">
-                        <i class="fas fa-brain fa-5x text-primary mb-3"></i>
+                        <i class="fas fa-brain fa-5x mb-3"></i>
                         <h5>ML-Powered</h5>
                         <p>Intelligent prediction engine</p>
                     </div>
@@ -264,14 +266,14 @@
         <div class="slide" id="slide3">
             <h2 class="slide-title"><i class="fas fa-exclamation-triangle me-3"></i>Problem Statement</h2>
             
-            <div class="alert alert-warning">
+            <div class="alert alert-light border border-dark">
                 <h4><i class="fas fa-lightbulb me-2"></i>The Challenge</h4>
                 <p class="mb-0">Educational institutions struggle to identify at-risk students early enough to provide timely intervention and support.</p>
             </div>
             
             <div class="row mt-4">
                 <div class="col-md-6">
-                    <h5 class="text-danger mb-3">Current Issues:</h5>
+                    <h5 class="mb-3">Current Issues:</h5>
                     <ul>
                         <li>Manual assessment is time-consuming and subjective</li>
                         <li>Late identification of struggling students</li>
@@ -282,7 +284,7 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="text-success mb-3">Our Solution:</h5>
+                    <h5 class="mb-3">Our Solution:</h5>
                     <ul>
                         <li>Automated ML-based performance prediction</li>
                         <li>Early warning system for at-risk students</li>
@@ -323,7 +325,7 @@
                 <p>Demonstrates that early intervention based on predictive models can improve student retention by 25-30%.</p>
             </div>
             
-            <div class="alert alert-info mt-4">
+            <div class="alert alert-light border border-dark mt-4">
                 <strong>Key Findings:</strong> Research consistently shows that ML-based prediction systems outperform traditional assessment methods in accuracy and timeliness.
             </div>
         </div>
@@ -384,7 +386,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4 class="mb-3">Functional Requirements</h4>
-                    <div class="card bg-dark mb-3">
+                    <div class="card bg-white border border-dark mb-3">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-user-plus me-2"></i>User Management</h6>
                             <ul class="small">
@@ -394,7 +396,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card bg-dark mb-3">
+                    <div class="card bg-white border border-dark mb-3">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-brain me-2"></i>Prediction Engine</h6>
                             <ul class="small">
@@ -404,7 +406,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card bg-dark">
+                    <div class="card bg-white border border-dark">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-history me-2"></i>Data Management</h6>
                             <ul class="small">
@@ -418,7 +420,7 @@
                 
                 <div class="col-md-6">
                     <h4 class="mb-3">Non-Functional Requirements</h4>
-                    <div class="card bg-dark mb-3">
+                    <div class="card bg-white border border-dark mb-3">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-tachometer-alt me-2"></i>Performance</h6>
                             <ul class="small">
@@ -428,7 +430,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card bg-dark mb-3">
+                    <div class="card bg-white border border-dark mb-3">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-shield-alt me-2"></i>Security</h6>
                             <ul class="small">
@@ -438,7 +440,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card bg-dark">
+                    <div class="card bg-white border border-dark">
                         <div class="card-body">
                             <h6 class="card-title"><i class="fas fa-expand me-2"></i>Scalability</h6>
                             <ul class="small">
@@ -454,19 +456,19 @@
             <h4 class="mt-4 mb-3">Technical Stack</h4>
             <div class="row">
                 <div class="col-md-3 text-center">
-                    <i class="fab fa-python fa-3x text-primary mb-2"></i>
+                    <i class="fab fa-python fa-3x mb-2"></i>
                     <p>Python 3.6+</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <i class="fas fa-server fa-3x text-success mb-2"></i>
+                    <i class="fas fa-server fa-3x mb-2"></i>
                     <p>Flask Framework</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <i class="fas fa-database fa-3x text-warning mb-2"></i>
+                    <i class="fas fa-database fa-3x mb-2"></i>
                     <p>SQLite Database</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <i class="fab fa-bootstrap fa-3x text-info mb-2"></i>
+                    <i class="fab fa-bootstrap fa-3x mb-2"></i>
                     <p>Bootstrap 5</p>
                 </div>
             </div>
@@ -540,20 +542,20 @@
                             <h5 class="mb-3">Student Performance Prediction System</h5>
                             <div class="row">
                                 <div class="col-6">
-                                    <div class="badge bg-primary mb-2">Register</div><br>
-                                    <div class="badge bg-primary mb-2">Login</div><br>
-                                    <div class="badge bg-success mb-2">Make Prediction</div><br>
-                                    <div class="badge bg-success mb-2">Upload Excel</div><br>
-                                    <div class="badge bg-info mb-2">View Dashboard</div><br>
-                                    <div class="badge bg-info mb-2">View History</div>
+                                    <div class="badge bg-dark mb-2">Register</div><br>
+                                    <div class="badge bg-dark mb-2">Login</div><br>
+                                    <div class="badge bg-dark mb-2">Make Prediction</div><br>
+                                    <div class="badge bg-dark mb-2">Upload Excel</div><br>
+                                    <div class="badge bg-dark mb-2">View Dashboard</div><br>
+                                    <div class="badge bg-dark mb-2">View History</div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="badge bg-warning mb-2">Manage Users</div><br>
-                                    <div class="badge bg-warning mb-2">View Reports</div><br>
-                                    <div class="badge bg-danger mb-2">Train Model</div><br>
-                                    <div class="badge bg-danger mb-2">System Config</div><br>
-                                    <div class="badge bg-secondary mb-2">Export Data</div><br>
-                                    <div class="badge bg-secondary mb-2">Analytics</div>
+                                    <div class="badge bg-dark mb-2">Manage Users</div><br>
+                                    <div class="badge bg-dark mb-2">View Reports</div><br>
+                                    <div class="badge bg-dark mb-2">Train Model</div><br>
+                                    <div class="badge bg-dark mb-2">System Config</div><br>
+                                    <div class="badge bg-dark mb-2">Export Data</div><br>
+                                    <div class="badge bg-dark mb-2">Analytics</div>
                                 </div>
                             </div>
                         </div>
@@ -610,28 +612,28 @@
                 </div>
                 
                 <div class="mt-4">
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>1.</strong> User submits student data → Web UI
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>2.</strong> Web UI validates input → Flask API
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>3.</strong> Flask API processes request → ML Model
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>4.</strong> ML Model performs prediction → Returns result
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>5.</strong> Flask API saves prediction → Database
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>6.</strong> Database confirms save → Flask API
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>7.</strong> Flask API returns response → Web UI
                     </div>
-                    <div class="alert alert-dark">
+                    <div class="alert alert-light border border-dark">
                         <strong>8.</strong> Web UI displays results → User
                     </div>
                 </div>
@@ -646,7 +648,7 @@
             
             <div class="diagram-container">
                 <div class="text-center">
-                    <div class="diagram-box bg-success">Start</div>
+                    <div class="diagram-box bg-dark text-white">Start</div>
                     <div class="flow-arrow">↓</div>
                     <div class="diagram-box">User Logs In</div>
                     <div class="flow-arrow">↓</div>
@@ -654,16 +656,16 @@
                     <div class="flow-arrow">↓</div>
                     <div class="diagram-box">Upload Excel File</div>
                     <div class="flow-arrow">↓</div>
-                    <div class="diagram-box bg-warning">Validate File Format</div>
+                    <div class="diagram-box bg-light">Validate File Format</div>
                     <div class="flow-arrow">↓</div>
                     <div class="row justify-content-center">
                         <div class="col-md-5">
-                            <div class="diagram-box bg-danger">Invalid Format</div>
+                            <div class="diagram-box border border-3">Invalid Format</div>
                             <div class="flow-arrow">↓</div>
                             <div class="diagram-box">Show Error Message</div>
                         </div>
                         <div class="col-md-5">
-                            <div class="diagram-box bg-primary">Valid Format</div>
+                            <div class="diagram-box bg-light">Valid Format</div>
                             <div class="flow-arrow">↓</div>
                             <div class="diagram-box">Parse Excel Data</div>
                             <div class="flow-arrow">↓</div>
@@ -677,7 +679,7 @@
                         </div>
                     </div>
                     <div class="flow-arrow">↓</div>
-                    <div class="diagram-box bg-success">End</div>
+                    <div class="diagram-box bg-dark text-white">End</div>
                 </div>
             </div>
         </div>
@@ -706,7 +708,7 @@
                     </div>
                     
                     <div class="col-md-2 text-center">
-                        <div class="text-warning">
+                        <div class="text-dark">
                             <div>Student Data →</div>
                             <div>← Predictions</div>
                             <div class="mt-3">Excel Upload →</div>
@@ -727,7 +729,7 @@
                     </div>
                     
                     <div class="col-md-2 text-center">
-                        <div class="text-info">
+                        <div class="text-dark">
                             <div>← ML Model</div>
                             <div>Training Data →</div>
                             <div class="mt-3">← Historical Data</div>
@@ -865,7 +867,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="uml-box">
-                        <h5 class="text-primary">User</h5>
+                        <h5 class="text-dark">User</h5>
                         <hr>
                         <div class="small">
                             <strong>Attributes:</strong><br>
@@ -890,7 +892,7 @@
                 
                 <div class="col-md-6">
                     <div class="uml-box">
-                        <h5 class="text-success">PredictionHistory</h5>
+                        <h5 class="text-dark">PredictionHistory</h5>
                         <hr>
                         <div class="small">
                             <strong>Attributes:</strong><br>
@@ -913,7 +915,7 @@
                 
                 <div class="col-md-12 mt-3">
                     <div class="uml-box">
-                        <h5 class="text-warning">StudentPerformanceModel</h5>
+                        <h5 class="text-dark">StudentPerformanceModel</h5>
                         <hr>
                         <div class="small">
                             <strong>Attributes:</strong><br>
@@ -934,7 +936,7 @@
             </div>
             
             <div class="mt-3 text-center">
-                <div class="alert alert-info">
+                <div class="alert alert-light border border-dark">
                     <strong>Relationships:</strong> User (1) ←→ (Many) PredictionHistory | StudentPerformanceModel uses PredictionHistory data
                 </div>
             </div>
@@ -948,39 +950,39 @@
             
             <div class="diagram-container">
                 <div class="text-center">
-                    <div class="diagram-box bg-dark">
-                        <i class="fas fa-circle fa-2x text-success"></i>
+                    <div class="diagram-box bg-dark text-white">
+                        <i class="fas fa-circle fa-2x"></i>
                         <div class="mt-2">Initial State</div>
                     </div>
                     
                     <div class="flow-arrow">↓ [Access Website]</div>
                     
-                    <div class="diagram-box bg-primary">
+                    <div class="diagram-box bg-light">
                         Not Authenticated
                     </div>
                     
                     <div class="row justify-content-center mt-3">
                         <div class="col-md-5">
                             <div class="flow-arrow">↓ [Login]</div>
-                            <div class="diagram-box bg-success">
+                            <div class="diagram-box bg-dark text-white">
                                 Authenticated
                             </div>
                             <div class="small mt-2">Actions: View Dashboard, Make Predictions</div>
                             
                             <div class="flow-arrow mt-3">↓ [Navigate]</div>
-                            <div class="diagram-box bg-info">
+                            <div class="diagram-box bg-light">
                                 Making Prediction
                             </div>
                             <div class="small mt-2">Actions: Enter Data, Upload File</div>
                             
                             <div class="flow-arrow mt-3">↓ [Submit]</div>
-                            <div class="diagram-box bg-warning text-dark">
+                            <div class="diagram-box bg-light">
                                 Processing
                             </div>
                             <div class="small mt-2">System validates and predicts</div>
                             
                             <div class="flow-arrow mt-3">↓ [Complete]</div>
-                            <div class="diagram-box bg-success">
+                            <div class="diagram-box bg-dark text-white">
                                 Results Displayed
                             </div>
                             <div class="small mt-2">Show prediction and suggestions</div>
@@ -988,17 +990,17 @@
                         
                         <div class="col-md-5">
                             <div class="flow-arrow">↓ [Register]</div>
-                            <div class="diagram-box bg-info">
+                            <div class="diagram-box bg-light">
                                 Registration
                             </div>
                             <div class="small mt-2">Actions: Fill Form, Validate</div>
                             
                             <div class="flow-arrow mt-3">↓ [Success]</div>
-                            <div class="diagram-box bg-success">
+                            <div class="diagram-box bg-dark text-white">
                                 Auto-Login
                             </div>
                             
-                            <div class="alert alert-danger mt-4">
+                            <div class="alert alert-light border border-dark mt-4">
                                 <strong>Error States:</strong><br>
                                 • Invalid Credentials<br>
                                 • Validation Failed<br>
@@ -1010,8 +1012,8 @@
                     
                     <div class="flow-arrow mt-3">↓ [Logout]</div>
                     
-                    <div class="diagram-box bg-dark">
-                        <i class="fas fa-circle fa-2x text-danger"></i>
+                    <div class="diagram-box bg-dark text-white">
+                        <i class="fas fa-circle fa-2x"></i>
                         <div class="mt-2">End State</div>
                     </div>
                 </div>
@@ -1026,7 +1028,7 @@
                 <div class="col-md-8">
                     <h4 class="mb-4">Project Achievements</h4>
                     
-                    <div class="alert alert-success">
+                    <div class="alert alert-light border border-dark">
                         <h5><i class="fas fa-trophy me-2"></i>Successfully Developed</h5>
                         <p>A comprehensive machine learning-based student performance prediction system with 91% accuracy</p>
                     </div>
@@ -1062,17 +1064,17 @@
                     <h5 class="mt-4 mb-3">Impact & Benefits:</h5>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card bg-dark mb-3">
+                            <div class="card bg-white border border-dark mb-3">
                                 <div class="card-body">
-                                    <h6><i class="fas fa-users text-primary me-2"></i>For Educators</h6>
+                                    <h6><i class="fas fa-users me-2"></i>For Educators</h6>
                                     <p class="small mb-0">Early identification of at-risk students, data-driven decisions, efficient bulk processing</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="card bg-dark mb-3">
+                            <div class="card bg-white border border-dark mb-3">
                                 <div class="card-body">
-                                    <h6><i class="fas fa-graduation-cap text-success me-2"></i>For Students</h6>
+                                    <h6><i class="fas fa-graduation-cap me-2"></i>For Students</h6>
                                     <p class="small mb-0">Personalized feedback, improvement roadmap, performance insights</p>
                                 </div>
                             </div>
@@ -1081,7 +1083,7 @@
                 </div>
                 
                 <div class="col-md-4">
-                    <div class="card bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="card bg-dark border border-dark">
                         <div class="card-body text-white text-center">
                             <i class="fas fa-lightbulb fa-4x mb-3"></i>
                             <h5>Future Enhancements</h5>
@@ -1154,7 +1156,7 @@
                 <em>Education and Information Technologies</em>, 26(5), 6035-6053.
             </div>
             
-            <div class="alert alert-info mt-4">
+            <div class="alert alert-light border border-dark mt-4">
                 <h6><i class="fas fa-info-circle me-2"></i>Additional Resources</h6>
                 <ul class="mb-0 small">
                     <li>SQLAlchemy Documentation - Object Relational Mapping</li>
@@ -1167,11 +1169,11 @@
 
         <!-- Navigation Buttons -->
         <div class="nav-buttons">
-            <button class="btn btn-primary mb-2" onclick="window.print()">
+            <button class="btn btn-dark mb-2" onclick="window.print()">
                 <i class="fas fa-print me-2"></i>Print
             </button>
             <br>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-dark">
                 <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
             </a>
         </div>
