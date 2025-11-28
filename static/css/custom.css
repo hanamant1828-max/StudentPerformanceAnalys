@@ -154,3 +154,16 @@
     background-color: var(--bs-primary);
     border-color: var(--bs-primary);
 }
+
+/* Toggle suggestions link styling */
+.toggle-suggestions {
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.toggle-suggestions:hover {
+    color: var(--bs-info) !important;
+    text-decoration: underline;
+}

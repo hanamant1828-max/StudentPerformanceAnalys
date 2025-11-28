@@ -33,6 +33,29 @@ class StudentPerformanceApp {
                 this.updateResultsView();
             }
         });
+        
+        // Toggle suggestions - use event delegation for dynamically created elements
+        $(document).on('click', '.toggle-suggestions', (e) => {
+            e.preventDefault();
+            const link = $(e.currentTarget);
+            const uniqueId = link.data('id');
+            const isExpanded = link.data('expanded');
+            
+            if (isExpanded) {
+                // Collapse - show short list, hide full list
+                $(`#${uniqueId}-short`).removeClass('d-none');
+                $(`#${uniqueId}-full`).addClass('d-none');
+                const moreCount = $(`#${uniqueId}-full li`).length - 3;
+                link.text(`+${moreCount} more suggestions`);
+                link.data('expanded', false);
+            } else {
+                // Expand - hide short list, show full list
+                $(`#${uniqueId}-short`).addClass('d-none');
+                $(`#${uniqueId}-full`).removeClass('d-none');
+                link.text('Show less');
+                link.data('expanded', true);
+            }
+        });
     }
     
     initializeDataTable() {
@@ -71,13 +94,19 @@ class StudentPerformanceApp {
                     render: function(data, type, row) {
                         if (type === 'display' && Array.isArray(data)) {
                             const topSuggestions = data.slice(0, 3);
-                            let html = '<ul class="mb-0 small">';
+                            const uniqueId = 'suggestions-' + Math.random().toString(36).substr(2, 9);
+                            let html = '<ul class="mb-0 small suggestions-list" id="' + uniqueId + '-short">';
                             topSuggestions.forEach(suggestion => {
                                 html += `<li>${suggestion}</li>`;
                             });
                             html += '</ul>';
                             if (data.length > 3) {
-                                html += `<small class="text-muted">+${data.length - 3} more suggestions</small>`;
+                                html += '<ul class="mb-0 small suggestions-list d-none" id="' + uniqueId + '-full">';
+                                data.forEach(suggestion => {
+                                    html += `<li>${suggestion}</li>`;
+                                });
+                                html += '</ul>';
+                                html += `<a href="#" class="text-info small toggle-suggestions" data-id="${uniqueId}" data-expanded="false">+${data.length - 3} more suggestions</a>`;
                             }
                             return html;
                         }
