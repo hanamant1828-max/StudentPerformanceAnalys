@@ -214,6 +214,32 @@
                                         <li><strong>Assignments_Completed</strong> - Number of assignments</li>
                                     </ul>
                                 </div>
+
+                                <div class="card mb-4 bg-dark">
+                                    <div class="card-header">
+                                        <h6 class="mb-0"><i class="fas fa-download me-2"></i>Sample Files for Testing</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted small mb-3">Download a sample file to test the batch prediction feature:</p>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-2">
+                                                <a href="{{ url_for('download_sample_file', filename='sample_students.xlsx') }}" class="btn btn-outline-primary btn-sm w-100">
+                                                    <i class="fas fa-file-excel me-2"></i>Sample 1
+                                                </a>
+                                            </div>
+                                            <div class="col-md-4 mb-2">
+                                                <a href="{{ url_for('download_sample_file', filename='mixed_students_sample.xlsx') }}" class="btn btn-outline-success btn-sm w-100">
+                                                    <i class="fas fa-file-excel me-2"></i>Sample 2
+                                                </a>
+                                            </div>
+                                            <div class="col-md-4 mb-2">
+                                                <a href="{{ url_for('download_sample_file', filename='large_class_30_students.xlsx') }}" class="btn btn-outline-info btn-sm w-100">
+                                                    <i class="fas fa-file-excel me-2"></i>Sample 3
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <form id="batchPredictionForm">
                                     <div class="mb-3">
